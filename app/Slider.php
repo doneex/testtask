@@ -10,11 +10,7 @@ class Slider {
     public function __construct($link, $type) {
         $this->link=$link;
         $this->type=$type;
-        if ($type == 'xml') {
-            $this->parsing($this->getFile($link, $type));
-        } elseif ($type == 'json') {
-            $this->parsing($this->getFile($link, $type));
-        }
+        $this->parsing($this->getFile($link, $type));
     }
 
     protected function getFile($link, $type) {
@@ -48,7 +44,7 @@ class Slider {
         }
 
         $renderSlider .= '</div>
-    </div>';
+        </div>';
         echo $renderSlider;
     }
 }

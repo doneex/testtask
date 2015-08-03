@@ -24,7 +24,6 @@ class Image {
     }
 
     public function renderImage() {
-        $renderImage = '<img src="'.$this->getPath().'" height='.$this->getHeight().' width='.$this->getWidth().' />';
-        return $renderImage;
+        return '<img src="'.$this->getPath().'" height='.$this->getHeight().' width='.$this->getWidth().' />';
     }
 }
