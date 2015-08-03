@@ -1,30 +1,54 @@
 <?php
 
+require $_SERVER['DOCUMENT_ROOT'].'/app/Image/Renderer.php';
+
 class Slider {
     protected $link;
     protected $type;
-    protected $imgs = [];
+    protected $images = array();
 
     public function __construct($link, $type) {
         $this->link=$link;
         $this->type=$type;
+        if ($type == 'xml') {
+            $this->parsing($this->getFile($link, $type));
+        } elseif ($type == 'json') {
+            $this->parsing($this->getFile($link, $type));
+        }
     }
 
-    protected function parsXml() {
-
+    protected function getFile($link, $type) {
+        if ($type == 'xml') {
+            $file = simplexml_load_file("$link");
+        } elseif ($type == 'json') {
+            $json_st = file_get_contents("$link");
+            $file = json_decode($json_st);
+        }
+        return $file;
     }
 
-    protected function parsJson() {
-
+    protected function parsing($file) {
+        foreach ($file as $value) {
+            $this->images[] = array('height'=>$value->height, 'path'=>$value->path, 'width'=>$value->width);
+        }
     }
 
-
+    protected function addImage($height, $path, $width) {
+        $this->images = new Image($height, $path, $width);
+        $picture = $this->images->renderImage();
+        return $picture;
+    }
 
     public function renderSlider() {
-        echo '<div class="sliderWrap" style="height: ; width: ;">
-        <div class="slider">
+        $renderSlider = '<div class="sliderWrap">
+        <div class="slider">';
 
-        </div>
+        foreach ($this->images as $key => $value) {
+            $renderSlider .= $this->addImage($value['height'], $value['path'], $value['width']);
+        }
+
+        $renderSlider .= '</div>
     </div>';
+        echo $renderSlider;
     }
 }

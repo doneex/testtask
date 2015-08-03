@@ -1,6 +1,3 @@
-<?php
-
-?>
 <html>
 <head>
     <meta charset="utf-8">
@@ -16,6 +13,15 @@
     </script>
 </head>
 <body>
-
+<?php
+require $_SERVER['DOCUMENT_ROOT'].'/app/Slider.php';
+$slider_xml = new Slider('https://raw.githubusercontent.com/nickua/testtaskfiles/master/images.xml', 'xml');
+$slider_xml->renderSlider();
+?>
+<br>
+<?php
+$slider_json = new Slider('https://raw.githubusercontent.com/nickua/testtaskfiles/master/images.json', 'json');
+$slider_json->renderSlider();
+?>
 </body>
 </html>
